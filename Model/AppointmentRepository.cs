@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Exchange.WebServices.Data;
 
 namespace Model
 {
+    /// <summary>
+    /// This class will use autodiscovery to start up it's exchange service, use impersonation to 
+    /// authenticate as a given user X and get the appointments from a shared calendar from user Y
+    /// </summary>
     public class AppointmentRepository : IRepository
     {
         private readonly CalendarView _calendarView;
@@ -29,9 +34,7 @@ namespace Model
                 PropertySet = new PropertySet(
                     AppointmentSchema.Subject, 
                     AppointmentSchema.Start, 
-                    AppointmentSchema.Location, 
-                    AppointmentSchema.Duration, 
-                    AppointmentSchema.Categories)
+                    AppointmentSchema.Duration)
             };
         }
         
@@ -42,7 +45,7 @@ namespace Model
         
         public IEnumerable<Appointment> All()
         {
-            return _calendarFolder.FindAppointments(_calendarView);
+            return _calendarFolder.FindAppointments(_calendarView).Where(appointment => appointment.Subject.Contains("Private"));
         }
     }
 }
