@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model.Extensions
 {
-    public static class AppointmentListExtension
+    public static class AppointmentExtension
     {
         public static string ToHtml(this List<Appointment> appointments)
         {
